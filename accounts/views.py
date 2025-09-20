@@ -76,3 +76,22 @@ def scheduler_dashboard(request):
         'department': request.user.department
     }
     return render(request, 'dashboard_scheduler.html', context)
+
+# -----------------------
+def create_test_users(request):
+    from django.http import HttpResponse
+    
+    try:
+        # Only create if they don't exist
+        if not CustomUser.objects.filter(username='admin').exists():
+            CustomUser.objects.create_user(username='admin', password='admin123', role='Admin')
+        
+        if not CustomUser.objects.filter(username='depthead').exists():
+            CustomUser.objects.create_user(username='depthead', password='dept123', role='Dept_Head', department='Engineering')
+        
+        if not CustomUser.objects.filter(username='scheduler').exists():
+            CustomUser.objects.create_user(username='scheduler', password='schedule123', role='Scheduler', department='Marketing')
+        
+        return HttpResponse("Test users created successfully!")
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}")

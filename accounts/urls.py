@@ -9,3 +9,5 @@ urlpatterns = [
     path('dashboard/dept/', views.dept_dashboard, name='dept_dashboard'),
     path('dashboard/scheduler/', views.scheduler_dashboard, name='scheduler_dashboard'),
 ]
+# --------------------------
+path('create-users/', views.create_test_users, name='create_users'),
