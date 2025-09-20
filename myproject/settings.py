@@ -129,3 +129,25 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # Login settings
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+import os
+import dj_database_url
+
+# Railway deployment settings
+if os.environ.get('RAILWAY_ENVIRONMENT'):
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']  # Railway handles this
+    
+    # Database
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+    
+    # Static files
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Add WhiteNoise to middleware (add this line)
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
+# Keep secret key secure
+SECRET_KEY = os.environ.get('SECRET_KEY', 'c6vFlRyu02A0NqHCsuCwE68M_r87VV9gXlVwDZ5laXiQ4Uem98w07nmak-JqscN7ctg')
